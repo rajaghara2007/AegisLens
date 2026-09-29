@@ -208,14 +208,17 @@ export const HorizontalNavbar: React.FC<HorizontalNavbarProps> = ({ onOpenCreate
 
         {/* Right Controls: Theme Toggle + Canary Switch + RBAC + Kill Switch */}
         <div className="flex items-center gap-2.5">
-          {/* Theme Toggle (Disabled) */}
+          {/* Theme Toggle */}
           <button
-            disabled
-            aria-disabled="true"
-            className="p-1.5 rounded-lg bg-slate-100 border border-slate-200 text-slate-300 cursor-not-allowed opacity-40 transition-colors"
-            title="Theme toggle disabled (Enterprise Light Theme Enforced)"
+            onClick={toggleTheme}
+            className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 transition-colors cursor-pointer"
+            title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
           >
-            <Sun className="w-4 h-4 text-slate-400" />
+            {theme === 'dark' ? (
+              <Sun className="w-4 h-4 text-amber-400" />
+            ) : (
+              <Moon className="w-4 h-4 text-slate-600" />
+            )}
           </button>
 
           {/* Canary Target Patch State Switch */}

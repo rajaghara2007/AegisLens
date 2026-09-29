@@ -104,14 +104,17 @@ export const SecureMonHeader: React.FC<SecureMonHeaderProps> = ({ onToggleSideba
 
         <div className="h-5 w-[1px] bg-line mx-0.5" />
 
-        {/* Theme Toggle (Disabled) */}
+        {/* Theme Toggle */}
         <button
-          disabled
-          aria-disabled="true"
-          className="p-1.5 rounded-lg text-slate-300 cursor-not-allowed opacity-40 transition-colors"
-          title="Theme toggle disabled (Enterprise Light Theme Enforced)"
+          onClick={toggleTheme}
+          className="p-1.5 rounded-lg text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-subtle transition-colors cursor-pointer"
+          title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
         >
-          <Sun className="w-4 h-4 text-slate-400" />
+          {theme === 'dark' ? (
+            <Sun className="w-4 h-4 text-amber-400" />
+          ) : (
+            <Moon className="w-4 h-4 text-slate-600" />
+          )}
         </button>
 
         {/* Notification Bell */}

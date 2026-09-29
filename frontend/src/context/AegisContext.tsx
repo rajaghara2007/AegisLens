@@ -114,7 +114,11 @@ export const AegisProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [commandPaletteOpen, setCommandPaletteOpen] = useState<boolean>(false);
   const [isCanaryFixEnabled, setIsCanaryFixEnabled] = useState<boolean>(false);
   const [executiveView, setExecutiveView] = useState<boolean>(false);
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    const saved = localStorage.getItem('aegis-theme');
+    if (saved === 'dark' || saved === 'light') return saved;
+    return 'light';
+  });
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
   const logout = () => {
@@ -122,13 +126,25 @@ export const AegisProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   const toggleTheme = () => {
-    // Theme switching is disabled by policy (Enterprise Light Theme Enforced)
-    document.documentElement.classList.remove('dark');
+    setTheme((prev) => {
+      const next = prev === 'light' ? 'dark' : 'light';
+      localStorage.setItem('aegis-theme', next);
+      if (next === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      return next;
+    });
   };
 
   useEffect(() => {
-    document.documentElement.classList.remove('dark');
-  }, []);
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme]);
 
   // Fetch initial state and data from backend API
   useEffect(() => {
